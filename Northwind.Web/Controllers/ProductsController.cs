@@ -1,5 +1,6 @@
 ﻿using Northwind.Web.DataContext;
 using Northwind.Web.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,12 @@ namespace Northwind.Web.Controllers
         NorhtwindEntities db = new NorhtwindEntities();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(int ?page)
         {
             List<Product> productos = new List<Product>();
             productos = db.Products.ToList().Select(x => new Product
-            { 
-            ProductName = x.ProductName,
+            {
+                ProductName = x.ProductName,
                 SupplierID = x.SupplierID,
                 CategoryID = x.CategoryID,
                 QuantityPerUnit = x.QuantityPerUnit,
@@ -28,8 +29,14 @@ namespace Northwind.Web.Controllers
                 ReorderLevel = x.ReorderLevel,
                 Discontinued = x.Discontinued
             }
-        ).ToList();
-            return View(productos);
+        ).OrderBy(p => p.ProductName).ToList();
+
+           // var models = db.Products.Project().To<Product>().OrderBy(p => p.ProductName);
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(productos.ToPagedList(pageNumber, pageSize));
+
+         //   return View(productos);
         }
 
         // GET: Products/Details/5

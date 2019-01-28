@@ -1,4 +1,10 @@
-﻿@model IEnumerable<Northwind.Web.Models.Product>
+﻿
+@using PagedList.Mvc;
+@model PagedList.IPagedList<Northwind.Web.Models.Product>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+of @Model.PageCount
+
+
 
 @{
     ViewBag.Title = "Index";
@@ -25,31 +31,40 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                @*@Html.DisplayNameFor(model => model.ProductName)*@
+                Nombre
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SupplierID)
+                @*@Html.DisplayNameFor(model => model.SupplierID)*@
+                ID Proveedor
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryID)
+                @*@Html.DisplayNameFor(model => model.CategoryID)*@
+                ID Categoria
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.QuantityPerUnit)
+                @*@Html.DisplayNameFor(model => model.QuantityPerUnit)*@
+                Cantidad X Unidad
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UnitPrice)
+                @*@Html.DisplayNameFor(model => model.UnitPrice)*@
+                Precio Unitario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UnitsInStock)
+                @*@Html.DisplayNameFor(model => model.UnitsInStock)*@
+                Unidades en inventario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UnitsOnOrder)
+                @*@Html.DisplayNameFor(model => model.UnitsOnOrder)*@
+                Unidades ordenadas
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReorderLevel)
+                 Nivel de reorden
+                @*@Html.DisplayNameFor(model => model.ReorderLevel)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Discontinued)
+                Descontinuado
+                @*@Html.DisplayNameFor(model => model.Discontinued)*@
             </th>
             <th></th>
         </tr>
@@ -57,14 +72,14 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr >
+            <tr>
                 <td class="active">
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
-                <td class="=success"> 
+                <td class="=success">
                     @Html.DisplayFor(modelItem => item.SupplierID)
                 </td>
-                <td class="info"> 
+                <td class="info">
                     @Html.DisplayFor(modelItem => item.CategoryID)
                 </td>
                 <td class="danger">
@@ -73,10 +88,10 @@
                 <td class="warning">
                     @Html.DisplayFor(modelItem => item.UnitPrice)
                 </td>
-               
-                <td >
+
+                <td>
                     <span class="badge">@Html.DisplayFor(modelItem => item.UnitsInStock)</span>
-                    
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UnitsOnOrder)
@@ -88,15 +103,17 @@
                     @Html.DisplayFor(modelItem => item.Discontinued)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+                    @Html.ActionLink(" ", "Edit", new { id = item.ProductID } ,new {@class = "glyphicon glyphicon-pencil" }) |
+                    @Html.ActionLink(" ", "Details", new { id = item.ProductID },new{@class= "glyphicon glyphicon-search" }) |
+                    @Html.ActionLink(" ", "Delete", new { id = item.ProductID },new{@class= "glyphicon glyphicon-erase" })
                 </td>
             </tr>
         }
     </tbody>
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page
+}), PagedListRenderOptions.TwitterBootstrapPager)
 
 
 <div class="row">
@@ -114,3 +131,4 @@
         Default
         Large
     </button>
+</div>
