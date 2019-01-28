@@ -1,4 +1,5 @@
-﻿using Northwind.Web.DataContext;
+﻿using Northwind.Web.Clases;
+using Northwind.Web.DataContext;
 using Northwind.Web.Models;
 using PagedList;
 using System;
@@ -11,38 +12,30 @@ namespace Northwind.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        NorhtwindEntities db = new NorhtwindEntities();
+       // NorhtwindEntities db = new NorhtwindEntities();
+        clsProducts _producto = new clsProducts();
 
         // GET: Products
         public ActionResult Index(int ?page)
         {
             List<Product> productos = new List<Product>();
-            productos = db.Products.ToList().Select(x => new Product
-            {
-                ProductName = x.ProductName,
-                SupplierID = x.SupplierID,
-                CategoryID = x.CategoryID,
-                QuantityPerUnit = x.QuantityPerUnit,
-                UnitPrice = x.UnitPrice,
-                UnitsInStock = x.UnitsInStock,
-                UnitsOnOrder = x.UnitsOnOrder,
-                ReorderLevel = x.ReorderLevel,
-                Discontinued = x.Discontinued
-            }
-        ).OrderBy(p => p.ProductName).ToList();
+            productos = _producto.GetTs();
 
-           // var models = db.Products.Project().To<Product>().OrderBy(p => p.ProductName);
+
             int pageSize = 5;
             int pageNumber = (page ?? 1);
+            //Convertir modelo a su representacion paginada
             return View(productos.ToPagedList(pageNumber, pageSize));
 
-         //   return View(productos);
         }
 
         // GET: Products/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Product _product = new Product();
+
+            _product = _producto.GetT(new Models.Product { ProductID= 1});
+            return View(_product);
         }
 
         // GET: Products/Create
@@ -53,12 +46,12 @@ namespace Northwind.Web.Controllers
 
         // POST: Products/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create( Product Product)
         {
             try
             {
                 // TODO: Add insert logic here
-
+                _producto.CrudT(Product,ECrud.Alta);
                 return RedirectToAction("Index");
             }
             catch

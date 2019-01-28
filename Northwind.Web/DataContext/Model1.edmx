@@ -164,7 +164,7 @@
             <Parameter Name="Accion" Mode="In" Type="Int16" />
           </FunctionImport>
           <FunctionImport Name="GetProduct" ReturnType="Collection(NorhtwindModel.GetProduct_Result)">
-            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+          <Parameter Name="ProductID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="CustOrderHist_Result">

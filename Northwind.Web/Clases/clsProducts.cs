@@ -57,7 +57,7 @@ namespace Northwind.Web.Clases
                 UnitsOnOrder = x.UnitsOnOrder,
                 ReorderLevel = x.ReorderLevel,
                 Discontinued = x.Discontinued
-            }).ToList();
+            }).OrderBy(p => p.ProductName).ToList();
         }
     }
 }
