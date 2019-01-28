@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,6 +9,7 @@ namespace Northwind.Web.Models
     public class Product
     {
         public int ProductID { get; set; }
+        [DataType(DataType.MultilineText)]
         public string ProductName { get; set; }
         public int? SupplierID { get; set; }
         public int? CategoryID { get; set; }
